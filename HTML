@@ -1,0 +1,698 @@
+<!doctype html>
+<html lang="pt-br">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Pra Emelly 💜</title>
+  <style>
+    :root{
+      --bg:#05050a;
+      --bg2:#0b0615;
+      --purple:#8b5cf6;
+      --purple2:#a78bfa;
+      --text:#f3f4f6;
+      --muted:#bdb6cf;
+      --card:rgba(255,255,255,.06);
+      --stroke:rgba(167,139,250,.25);
+      --shadow: 0 10px 40px rgba(0,0,0,.55);
+      --radius: 18px;
+    }
+    *{box-sizing:border-box}
+    body{
+      margin:0;
+      font-family: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Arial;
+      color:var(--text);
+      background:
+        radial-gradient(1000px 600px at 20% 10%, rgba(139,92,246,.20), transparent 60%),
+        radial-gradient(900px 500px at 80% 20%, rgba(167,139,250,.16), transparent 55%),
+        radial-gradient(900px 700px at 50% 90%, rgba(139,92,246,.12), transparent 60%),
+        linear-gradient(180deg, var(--bg), var(--bg2));
+      min-height:100vh;
+      overflow-x:hidden;
+    }
+
+    /* hearts */
+    .hearts{position:fixed; inset:0; pointer-events:none; overflow:hidden; z-index:0;}
+    .heart{
+      position:absolute;
+      bottom:-30px;
+      font-size:18px;
+      opacity:.0;
+      filter: drop-shadow(0 6px 10px rgba(139,92,246,.35));
+      animation: floatUp linear forwards;
+    }
+    @keyframes floatUp{
+      0%{ transform:translateY(0) translateX(0) scale(.9); opacity:0}
+      10%{opacity:.75}
+      100%{ transform:translateY(-120vh) translateX(var(--drift)) scale(1.15); opacity:0}
+    }
+
+    /* layout */
+    .wrap{position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:22px 16px 80px;}
+    .topbar{
+      display:flex; gap:12px; align-items:center; justify-content:space-between;
+      padding:12px 14px;
+      border:1px solid var(--stroke);
+      background:rgba(0,0,0,.28);
+      backdrop-filter: blur(10px);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      position:sticky; top:10px; z-index:5;
+    }
+    .brand{
+      display:flex; flex-direction:column; gap:2px;
+    }
+    .brand b{font-size:14px; letter-spacing:.6px; text-transform:uppercase}
+    .brand span{font-size:12px; color:var(--muted)}
+    .btn{
+      border:1px solid var(--stroke);
+      background: linear-gradient(180deg, rgba(139,92,246,.20), rgba(0,0,0,.10));
+      color:var(--text);
+      padding:10px 12px;
+      border-radius:14px;
+      cursor:pointer;
+      box-shadow: 0 10px 30px rgba(0,0,0,.35);
+      transition:.15s transform, .15s opacity;
+      font-weight:600;
+    }
+    .btn:hover{transform:translateY(-1px)}
+    .btn:active{transform:translateY(0px); opacity:.9}
+    .btn.secondary{
+      background: rgba(255,255,255,.05);
+    }
+
+    .tabs{
+      display:flex;
+      gap:8px;
+      flex-wrap:wrap;
+      justify-content:flex-start;
+      align-items:center;
+      margin-left:10px;
+    }
+    .tab{
+      font-size:12px;
+      padding:9px 10px;
+      border-radius:14px;
+      border:1px solid rgba(167,139,250,.22);
+      background: rgba(255,255,255,.04);
+      color:var(--text);
+      cursor:pointer;
+      user-select:none;
+      transition:.15s;
+    }
+    .tab.active{
+      background: rgba(139,92,246,.22);
+      border-color: rgba(167,139,250,.38);
+      box-shadow: 0 10px 30px rgba(139,92,246,.18);
+    }
+
+    .panel{
+      margin-top:18px;
+      border:1px solid var(--stroke);
+      background: rgba(0,0,0,.26);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow:hidden;
+    }
+    .panel-inner{padding:18px 16px;}
+    .hero{
+      padding:34px 18px 26px;
+      background:
+        radial-gradient(800px 400px at 20% 20%, rgba(139,92,246,.22), transparent 60%),
+        radial-gradient(800px 420px at 80% 30%, rgba(167,139,250,.14), transparent 62%),
+        linear-gradient(180deg, rgba(255,255,255,.04), rgba(0,0,0,.12));
+      border-bottom: 1px solid rgba(167,139,250,.18);
+      text-align:center;
+    }
+    .hero h1{
+      margin:0 0 10px;
+      font-size:28px;
+      letter-spacing:.4px;
+      text-shadow: 0 12px 40px rgba(139,92,246,.22);
+    }
+    .hero p{
+      margin:0 auto 18px;
+      max-width:820px;
+      color:var(--muted);
+      line-height:1.45;
+      font-size:14px;
+    }
+
+    .grid{
+      display:grid;
+      gap:12px;
+    }
+    @media(min-width:900px){
+      .grid.cols2{grid-template-columns: 1fr 1fr;}
+      .grid.cols3{grid-template-columns: 1fr 1fr 1fr;}
+    }
+    .card{
+      border:1px solid rgba(167,139,250,.18);
+      background: rgba(255,255,255,.04);
+      border-radius: 18px;
+      padding:14px;
+      box-shadow: 0 14px 50px rgba(0,0,0,.30);
+    }
+    .card h3{margin:0 0 8px; font-size:14px; letter-spacing:.3px}
+    .card p{margin:0; color:var(--muted); font-size:13px; line-height:1.45}
+
+    .bigtext{
+      white-space:pre-wrap;
+      line-height:1.55;
+      font-size:14px;
+      color:var(--text);
+    }
+    .bigtext .muted{color:var(--muted)}
+
+    .motivos{
+      display:grid;
+      gap:10px;
+    }
+    @media(min-width:900px){ .motivos{ grid-template-columns: 1fr 1fr; } }
+    .motivo{
+      border:1px solid rgba(167,139,250,.18);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding:12px;
+      cursor:pointer;
+      transition:.15s transform, .15s background;
+      position:relative;
+      overflow:hidden;
+    }
+    .motivo:hover{transform:translateY(-1px); background: rgba(139,92,246,.08);}
+    .motivo b{display:block; font-size:13px}
+    .motivo span{display:none; margin-top:8px; color:var(--muted); font-size:13px; line-height:1.45}
+    .motivo.open span{display:block}
+    .motivo .pill{
+      position:absolute;
+      top:10px; right:10px;
+      font-size:11px;
+      color: rgba(255,255,255,.85);
+      background: rgba(139,92,246,.20);
+      border:1px solid rgba(167,139,250,.28);
+      padding:4px 8px;
+      border-radius:999px;
+    }
+
+    .box{
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      min-height:160px;
+      text-align:center;
+      gap:10px;
+      flex-direction:column;
+    }
+    .gift{
+      width:min(520px, 100%);
+      padding:16px;
+      border-radius: 18px;
+      border:1px dashed rgba(167,139,250,.35);
+      background: rgba(0,0,0,.20);
+    }
+    .gift .msg{
+      margin-top:10px;
+      font-size:14px;
+      line-height:1.55;
+      color:var(--text);
+      white-space:pre-wrap;
+    }
+
+    .actions{display:flex; gap:10px; flex-wrap:wrap; justify-content:center}
+    .actions.left{justify-content:flex-start}
+
+    .timeline{
+      display:grid;
+      gap:10px;
+      margin-top:8px;
+    }
+    .titem{
+      border:1px solid rgba(167,139,250,.18);
+      background: rgba(255,255,255,.03);
+      border-radius: 16px;
+      padding:12px;
+    }
+    .titem b{display:block; font-size:13px; margin-bottom:6px}
+    .titem span{color:var(--muted); font-size:13px; line-height:1.45}
+
+    .embed{
+      border-radius:14px;
+      overflow:hidden;
+      border:1px solid rgba(167,139,250,.22);
+      background: rgba(0,0,0,.2);
+    }
+    iframe{border:0; width:100%;}
+    .footnote{
+      margin-top:10px;
+      font-size:12px;
+      color:var(--muted);
+      text-align:center;
+    }
+
+    .toast{
+      position:fixed;
+      left:50%; transform:translateX(-50%);
+      bottom:18px;
+      background: rgba(0,0,0,.75);
+      border:1px solid rgba(167,139,250,.30);
+      border-radius: 999px;
+      padding:10px 14px;
+      font-size:12px;
+      color:var(--text);
+      box-shadow: var(--shadow);
+      opacity:0;
+      pointer-events:none;
+      transition:.2s;
+      z-index:10;
+      backdrop-filter: blur(10px);
+    }
+    .toast.show{opacity:1}
+  </style>
+</head>
+<body>
+  <div class="hearts" id="hearts"></div>
+
+  <div class="wrap">
+    <div class="topbar">
+      <div class="brand">
+        <b>pra Emelly 💜</b>
+        <span>preto + roxo • com carinho • do teu jeito</span>
+      </div>
+
+      <div class="tabs" id="tabs">
+        <div class="tab active" data-panel="home">início</div>
+        <div class="tab" data-panel="motivos">motivos</div>
+        <div class="tab" data-panel="carta">carta</div>
+        <div class="tab" data-panel="carinho">caixa</div>
+        <div class="tab" data-panel="triste">triste</div>
+        <div class="tab" data-panel="timeline">linha do tempo</div>
+        <div class="tab" data-panel="playlist">playlist</div>
+      </div>
+
+      <button class="btn secondary" id="btnHearts">mais corações</button>
+    </div>
+
+    <!-- HOME -->
+    <section class="panel" data-panel="home">
+      <div class="hero">
+        <h1>mor esse site é só pra vc</h1>
+        <p>
+          eu fiz isso pra quando vc tiver mal pra vc lembrar de uma coisa
+          vc é muito mais forte do que vc pensa eu to aqui com vc sempre
+        </p>
+        <div class="actions">
+          <button class="btn" id="btnEntrar">entrar</button>
+          <button class="btn secondary" id="btnMusica">tocar música</button>
+        </div>
+        <div class="footnote">clica sem medo mor</div>
+      </div>
+
+      <div class="panel-inner">
+        <div class="grid cols3">
+          <div class="card">
+            <h3>o que tem aqui</h3>
+            <p>tem motivos, carta, surpresa, botão pra quando vc tiver triste, nossa linha do tempo e sua playlist</p>
+          </div>
+          <div class="card">
+            <h3>quando usar</h3>
+            <p>quando vc tiver se sentindo pra baixo, cansada, insegura, ou só querendo carinho mesmo</p>
+          </div>
+          <div class="card">
+            <h3>promessa</h3>
+            <p>eu não vou cansar de te lembrar que vc é linda e amada e suficiente</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- MOTIVOS -->
+    <section class="panel" data-panel="motivos" hidden>
+      <div class="hero">
+        <h1>motivos pra eu te amar</h1>
+        <p>clica em cada um mor pra abrir (é muitos pq eu não paro de te amar)</p>
+        <div class="actions">
+          <button class="btn secondary" id="btnAbrirTodos">abrir tudo</button>
+          <button class="btn secondary" id="btnFecharTodos">fechar tudo</button>
+        </div>
+      </div>
+      <div class="panel-inner">
+        <div class="motivos" id="motivosList"></div>
+      </div>
+    </section>
+
+    <!-- CARTA -->
+    <section class="panel" data-panel="carta" hidden>
+      <div class="hero">
+        <h1>carta aberta pra vc</h1>
+        <p>lê com calma mor e respira</p>
+      </div>
+      <div class="panel-inner">
+        <div class="card">
+          <div class="bigtext" id="cartaText"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CAIXA DE CARINHO -->
+    <section class="panel" data-panel="carinho" hidden>
+      <div class="hero">
+        <h1>caixa de carinho</h1>
+        <p>clica pra abrir uma surpresa (toda vez vem uma diferente)</p>
+      </div>
+      <div class="panel-inner">
+        <div class="box">
+          <div class="gift">
+            <div class="actions">
+              <button class="btn" id="btnSurpresa">clique para abrir uma surpresa</button>
+              <button class="btn secondary" id="btnOutra">outra</button>
+            </div>
+            <div class="msg" id="surpresaMsg">mor clica ai em cima</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TRISTE -->
+    <section class="panel" data-panel="triste" hidden>
+      <div class="hero">
+        <h1>se vc estiver triste clique aqui</h1>
+        <p>eu fiz isso pra te salvar rapidão quando a cabeça começar a falar bosta</p>
+      </div>
+      <div class="panel-inner">
+        <div class="grid cols3">
+          <div class="card">
+            <h3>me dá um elogio</h3>
+            <p id="resp1" class="bigtext">clica no botão aqui embaixo mor</p>
+            <div class="actions left" style="margin-top:10px">
+              <button class="btn" data-resp="1">clica aqui</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>me lembra quem eu sou</h3>
+            <p id="resp2" class="bigtext">clica no botão aqui embaixo mor</p>
+            <div class="actions left" style="margin-top:10px">
+              <button class="btn" data-resp="2">clica aqui</button>
+            </div>
+          </div>
+          <div class="card">
+            <h3>eu preciso de carinho agora</h3>
+            <p id="resp3" class="bigtext">clica no botão aqui embaixo mor</p>
+            <div class="actions left" style="margin-top:10px">
+              <button class="btn" data-resp="3">clica aqui</button>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:12px">
+          <h3>botão de emergência</h3>
+          <p class="bigtext" id="emergenciaText">se vc achar que não é suficiente, clica aqui embaixo</p>
+          <div class="actions left" style="margin-top:10px">
+            <button class="btn" id="btnEmergencia">eu to mal</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- TIMELINE -->
+    <section class="panel" data-panel="timeline" hidden>
+      <div class="hero">
+        <h1>linha do tempo da gente</h1>
+        <p>isso aqui é só o começo mor ainda vai ter muita coisa bonita com a gente</p>
+      </div>
+      <div class="panel-inner">
+        <div class="timeline" id="timelineList"></div>
+      </div>
+    </section>
+
+    <!-- PLAYLIST -->
+    <section class="panel" data-panel="playlist" hidden>
+      <div class="hero">
+        <h1>playlist da Emelly</h1>
+        <p>
+          essas músicas me lembram vc de um jeito que eu não sei explicar
+          quando toca eu lembro do seu rosto eu lembro do seu olhar eu lembro do seu sorriso eu lembro de vc inteira
+        </p>
+        <div class="actions">
+          <button class="btn" id="btnPlayHint">eu quero ouvir</button>
+          <button class="btn secondary" id="btnCopyLink">copiar link da playlist</button>
+        </div>
+        <div class="footnote">deixa tocar um pouco mor e respira</div>
+      </div>
+      <div class="panel-inner">
+        <div class="embed">
+          <!-- Spotify Embed: formato oficial open.spotify.com/embed/playlist/{id} :contentReference[oaicite:1]{index=1} -->
+          <iframe
+            title="Playlist da Emelly"
+            src="https://open.spotify.com/embed/playlist/5K7WAX52a1KdhHwck21UdS?utm_source=generator"
+            height="380"
+            allow="autoplay; clipboard-write; encrypted-media; fullscreen; picture-in-picture"
+            loading="lazy">
+          </iframe>
+        </div>
+        <div class="card" style="margin-top:12px">
+          <div class="bigtext">se alguma música te fizer chorar lembra que eu te amo e eu to aqui</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <div class="toast" id="toast">feito</div>
+
+  <script>
+    // ========= CONFIG (textos do teu jeito) =========
+    const CARTA = `mor eu sei que vc ta mal e eu queria tá ai agora com vc de verdade eu queria te abraçar forte e fazer vc esquecer essas coisas ruins eu não gosto de ver vc se diminuindo pq vc não é pequena vc é gigante vc é linda vc é gostosa vc é inteligente vc é forte vc é especial vc é rara e não é papo pra te agradar não eu falo isso pq eu sinto isso eu olho pra vc e eu vejo a mulher mais bonita que eu já vi e eu não to falando só de corpo eu to falando de tudo do seu jeito do seu olhar do seu sorriso do seu cabelo da sua boca do seu rosto principalmente seus olhos mor seus olhos são a coisa mais linda que existe e eu fico bobo toda vez eu queria que vc se enxergasse nem que fosse por 1 minuto do jeito que eu te enxergo pq se vc se visse assim vc nunca mais ia duvidar de vc eu sei que tem dia que a cabeça da gente mente pra gente e faz parecer que a gente não é suficiente mas vc é suficiente sim vc é mais do que suficiente vc é uma mulher incrível e eu tenho orgulho de vc eu quero vc bem eu quero vc se amando eu quero vc se olhando e pensando caramba eu sou linda pq vc é linda mesmo e eu vou ficar do seu lado sempre mesmo quando vc tiver sem força eu seguro sua mão eu te lembro eu te levanto eu não vou deixar vc enfrentar isso sozinha eu te amo Emelly
+
+vc não tem que virar outra pessoa pra merecer amor vc já merece agora`;
+
+    const MOTIVOS = [
+      "eu te amo pq vc é vc",
+      "eu te amo pq seu sorriso é meu lugar favorito",
+      "eu te amo pq seus olhos são absurdamente lindos",
+      "eu te amo pq vc é forte mesmo quando vc acha que não é",
+      "eu te amo pq vc tenta mesmo cansada",
+      "eu te amo pq vc é inteligente demais",
+      "eu te amo pq seu jeitinho é perfeito pra mim",
+      "eu te amo pq quando vc fala comigo meu dia melhora",
+      "eu te amo pq vc é linda de um jeito que não existe",
+      "eu te amo pq vc não precisa provar nada pra ninguém",
+      "eu te amo pq vc é única e isso me deixa bobo",
+      "eu te amo pq vc tem um coração bom",
+      "eu te amo pq vc se importa com as coisas de verdade",
+      "eu te amo pq vc é a melhor parte do meu dia",
+      "eu te amo pq eu sinto paz pensando em vc",
+      "eu te amo pq vc é minha pessoa favorita",
+      "eu te amo pq vc é mais bonita do que qualquer coisa que eu já vi",
+      "eu te amo pq seu cabelo é lindo demais",
+      "eu te amo pq sua boca é linda e eu amo seu sorriso nela",
+      "eu te amo pq seu rosto é perfeito pra mim",
+      "eu te amo pq vc é gostosa sim e pronto",
+      "eu te amo pq vc é linda mesmo nos dias que vc não acredita",
+      "eu te amo pq vc merece se amar mais",
+      "eu te amo pq vc é mais do que corpo vc é tudo",
+      "eu te amo pq eu fico orgulhoso de vc",
+      "eu te amo pq vc me faz querer ser melhor",
+      "eu te amo pq vc é minha princesa",
+      "eu te amo pq vc é minha Emelly",
+      "eu te amo pq eu não enjoaria de vc nunca",
+      "eu te amo pq eu amo ficar com vc até em silêncio",
+      "eu te amo pq sua risada é a coisa mais fofa do mundo",
+      "eu te amo pq vc é uma das pessoas mais incríveis que eu já conheci",
+      "eu te amo pq quando vc some eu sinto falta na hora",
+      "eu te amo pq eu gosto de cuidar de vc",
+      "eu te amo pq eu gosto de te lembrar que vc é linda",
+      "eu te amo pq vc tem um brilho que ninguém apaga",
+      "eu te amo pq vc é minha melhor escolha",
+      "eu te amo pq eu penso em vc todo dia",
+      "eu te amo pq eu quero um futuro com vc",
+      "eu te amo pq vc é o amor da minha vida"
+    ];
+
+    const CARINHOS = [
+      "mor respira eu to com vc",
+      "vc é linda do jeito que vc é",
+      "se vc não conseguir hoje tudo bem amanhã eu tento com vc",
+      "seu sorriso é meu remédio",
+      "seus olhos são meu lugar",
+      "eu tenho orgulho de vc",
+      "vc é mais forte do que esse momento ruim",
+      "vc é minha princesa",
+      "vc é a melhor mulher do mundo pra mim",
+      "eu te amo mais do que vc imagina",
+      "eu queria te dar um abraço agora",
+      "vc não tá sozinha nem por 1 segundo",
+      "eu escolho vc todo dia",
+      "vc é incrível e ponto final",
+      "vc merece carinho e paz",
+      "vc é gostosa sim e perfeita sim",
+      "seu corpo é lindo e é seu e eu amo ele",
+      "seu rosto é meu favorito no mundo",
+      "vc é minha Emelly e eu sou seu",
+      "eu vou cuidar de vc do meu jeito sempre"
+    ];
+
+    const TRISTE = {
+      1: "vc é linda vc é gostosa vc é inteligente vc é forte vc é uma das pessoas mais incríveis que eu já conheci e eu não to brincando",
+      2: "vc é Emelly vc é meu amor vc é minha princesa vc é alguém que merece amor e respeito e paz vc não é o que sua cabeça fala quando vc tá mal",
+      3: "vem cá mor imagina eu te abraçando bem forte e dizendo no seu ouvido eu te amo eu to aqui eu não vou embora eu vou ficar com vc até vc melhorar"
+    };
+
+    const EMERGENCIA = "vc é suficiente sim vc é linda sim vc é amada sim e eu não vou cansar de te provar isso";
+
+    // Timeline (tu pode editar depois)
+    const TIMELINE = [
+      { t: "o dia que eu comecei a falar com vc", d: "e já senti algo diferente" },
+      { t: "o dia que eu percebi", d: "que eu tava me apaixonando por vc" },
+      { t: "o dia que a gente saiu junto", d: "e eu fiquei feliz de verdade" },
+      { t: "os dias que vc me fez sorrir", d: "mesmo eu estando ruim" },
+      { t: "o dia que eu decidi", d: "que eu queria vc pra minha vida" },
+      { t: "hoje", d: "e todos os dias que eu escolho vc" }
+    ];
+
+    const PLAYLIST_LINK = "https://open.spotify.com/playlist/5K7WAX52a1KdhHwck21UdS?si=TeE0Fl0CQQ6tOWzhu57f6g";
+
+    // ========= UI =========
+    const $ = (q, el=document) => el.querySelector(q);
+    const $$ = (q, el=document) => [...el.querySelectorAll(q)];
+
+    const toast = (msg="feito")=>{
+      const t = $("#toast");
+      t.textContent = msg;
+      t.classList.add("show");
+      setTimeout(()=>t.classList.remove("show"), 1400);
+    };
+
+    function go(panel){
+      $$(".tab").forEach(t=>t.classList.toggle("active", t.dataset.panel===panel));
+      $$("section.panel").forEach(p=>{
+        p.hidden = p.dataset.panel!==panel;
+      });
+      window.scrollTo({top:0, behavior:"smooth"});
+    }
+
+    // tabs
+    $("#tabs").addEventListener("click", (e)=>{
+      const tab = e.target.closest(".tab");
+      if(!tab) return;
+      popHearts(10);
+      go(tab.dataset.panel);
+    });
+
+    // home buttons
+    $("#btnEntrar").addEventListener("click", ()=>{
+      popHearts(14);
+      go("motivos");
+    });
+    $("#btnMusica").addEventListener("click", ()=>{
+      popHearts(12);
+      go("playlist");
+      toast("aperte play no player 💜");
+    });
+
+    // motivos render
+    const motivosEl = $("#motivosList");
+    MOTIVOS.forEach((m, i)=>{
+      const div = document.createElement("div");
+      div.className="motivo";
+      div.innerHTML = `
+        <div class="pill">#${String(i+1).padStart(2,"0")}</div>
+        <b>${m}</b>
+        <span>mor eu não falo isso por falar não eu falo pq eu sinto de verdade</span>
+      `;
+      div.addEventListener("click", ()=>{
+        div.classList.toggle("open");
+        popHearts(2);
+      });
+      motivosEl.appendChild(div);
+    });
+
+    $("#btnAbrirTodos").addEventListener("click", ()=>{
+      $$(".motivo").forEach(m=>m.classList.add("open"));
+      popHearts(20);
+      toast("abriu tudo");
+    });
+    $("#btnFecharTodos").addEventListener("click", ()=>{
+      $$(".motivo").forEach(m=>m.classList.remove("open"));
+      toast("fechou tudo");
+    });
+
+    // carta
+    $("#cartaText").textContent = CARTA;
+
+    // carinho random
+    function pick(arr){ return arr[Math.floor(Math.random()*arr.length)]; }
+    function setSurpresa(){
+      $("#surpresaMsg").textContent = pick(CARINHOS);
+      popHearts(10);
+    }
+    $("#btnSurpresa").addEventListener("click", setSurpresa);
+    $("#btnOutra").addEventListener("click", setSurpresa);
+
+    // triste buttons
+    $$("button[data-resp]").forEach(btn=>{
+      btn.addEventListener("click", ()=>{
+        const n = btn.dataset.resp;
+        $("#resp"+n).textContent = TRISTE[n];
+        popHearts(12);
+      });
+    });
+    $("#btnEmergencia").addEventListener("click", ()=>{
+      $("#emergenciaText").textContent = EMERGENCIA;
+      popHearts(24);
+      toast("eu to com vc");
+    });
+
+    // timeline render
+    const tl = $("#timelineList");
+    TIMELINE.forEach(item=>{
+      const d = document.createElement("div");
+      d.className="titem";
+      d.innerHTML = `<b>${item.t}</b><span>${item.d}</span>`;
+      tl.appendChild(d);
+    });
+
+    // playlist controls
+    $("#btnPlayHint").addEventListener("click", ()=>{
+      popHearts(16);
+      toast("aperte play no player 💜");
+      // rola até o iframe
+      const iframe = $("iframe");
+      iframe.scrollIntoView({behavior:"smooth", block:"center"});
+    });
+    $("#btnCopyLink").addEventListener("click", async ()=>{
+      try{
+        await navigator.clipboard.writeText(PLAYLIST_LINK);
+        toast("link copiado");
+      }catch{
+        toast("não deu pra copiar");
+      }
+    });
+
+    // hearts fx
+    const heartsLayer = $("#hearts");
+    function popHearts(count=8){
+      const symbols = ["💜","🖤","💜","🖤","💜","✨","💜"];
+      for(let i=0;i<count;i++){
+        const h = document.createElement("div");
+        h.className="heart";
+        h.textContent = symbols[Math.floor(Math.random()*symbols.length)];
+        const left = Math.random()*100;
+        const dur = 3 + Math.random()*3.5;
+        const drift = (Math.random()*120 - 60).toFixed(0)+"px";
+        const size = 14 + Math.random()*18;
+        h.style.left = left+"vw";
+        h.style.setProperty("--drift", drift);
+        h.style.animationDuration = dur+"s";
+        h.style.fontSize = size+"px";
+        heartsLayer.appendChild(h);
+        requestAnimationFrame(()=>{ h.style.opacity = "1"; });
+        setTimeout(()=>h.remove(), (dur*1000)+200);
+      }
+    }
+
+    $("#btnHearts").addEventListener("click", ()=>popHearts(40));
+
+    // start
+    popHearts(18);
+  </script>
+</body>
+</html>
